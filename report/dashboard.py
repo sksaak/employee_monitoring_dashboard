@@ -57,11 +57,15 @@ class Header(BaseComponent):
     # Ensure the method has the same parameters
     # as the parent class
     def build_component(self, entity_id, model):
-
+        username = model.username(entity_id)
         # Using the model argument for this method
         # return a fasthtml H1 objects
         # containing the model's name attribute
-        return H1(model.name)
+        if model.name == "employee":
+            title_name = "Employee Performance: " + str(username[0][0])
+        elif model.name == "team":
+            title_name = "Team Performance: " + str(username[0][0])
+        return H1(title_name)
 
 # Create a subclass of base_components/MatplotlibViz
 # called `LineChart`
@@ -101,7 +105,7 @@ class LineChart(MatplotlibViz):
 
         # call the .plot method for the
         # cumulative counts dataframe
-        df.plot(ax=ax)
+        df.plot(ax=ax, color=self.colors)
 
         # pass the axis variable
         # to the `.set_axis_styling`
@@ -113,7 +117,7 @@ class LineChart(MatplotlibViz):
         self.set_axis_styling(ax=ax, bordercolor='black', fontcolor='black')
 
         # Set title and labels for x and y axis
-        ax.set_title('Event Counts')
+        self.set_title_styling(ax=ax, title="Event Counts")
         ax.set_xlabel('Date')
         ax.set_ylabel('Events')
 
@@ -162,14 +166,15 @@ class BarChart(MatplotlibViz):
         fig, ax = plt.subplots()
 
         # Run the following code unchanged
-        ax.barh([''], [pred])
+        ax.barh([''], [pred], color=self.colors)
         ax.set_xlim(0, 1)
-        ax.set_title('Predicted Recruitment Risk', fontsize=20)
+        self.set_title_styling(ax=ax, title="Predicted Recruitment Risk")
+        ax.text(pred + 0.02, 0, f'{pred:.3f} %', ha='left', va='center', fontsize=15, color='black', fontweight='bold')
 
         # pass the axis variable
         # to the `.set_axis_styling`
         # method
-        self.set_axis_styling(ax)
+        self.set_axis_styling(ax=ax, bordercolor='black', fontcolor='black')
 
 
 # Create a subclass of combined_components/CombinedComponent
