@@ -1,10 +1,9 @@
-from fasthtml.common import *
+from fasthtml.common import *  # noqa: F403
 import matplotlib.pyplot as plt
 
 # Import QueryBase, Employee, Team from employee_events
-from employee_events import QueryBase, Employee, Team
+from employee_events import Employee, Team
 
-from report import base_components
 # import the load_model function from the utils.py file
 from report.utils import load_model
 
@@ -18,7 +17,7 @@ from report.base_components import (
     Radio,
     MatplotlibViz,
     DataTable
-    )
+)
 
 from report.combined_components import FormGroup, CombinedComponent
 
@@ -49,6 +48,7 @@ class ReportDropdown(Dropdown):
         # names and ids
         return model.names()
 
+
 # Create a subclass of base_components/BaseComponent
 # called `Header`
 class Header(BaseComponent):
@@ -65,10 +65,13 @@ class Header(BaseComponent):
             title_name = "Employee Performance: " + str(username[0][0])
         elif model.name == "team":
             title_name = "Team Performance: " + str(username[0][0])
-        return H1(title_name)
+        return H1(title_name)  # noqa: F405
+
 
 # Create a subclass of base_components/MatplotlibViz
 # called `LineChart`
+
+
 class LineChart(MatplotlibViz):
 
     # Overwrite the parent class's `visualization`
@@ -93,7 +96,6 @@ class LineChart(MatplotlibViz):
         # in the dataframe to cumulative counts
         df = df.cumsum()
 
-
         # Set the dataframe columns to the list
         # ['Positive', 'Negative']
         df.columns = ["Positive", "Negative"]
@@ -110,9 +112,9 @@ class LineChart(MatplotlibViz):
         # pass the axis variable
         # to the `.set_axis_styling`
         # method
-        # Use keyword arguments to set 
-        # the border color and font color to black. 
-        # Reference the base_components/matplotlib_viz file 
+        # Use keyword arguments to set
+        # the border color and font color to black.
+        # Reference the base_components/matplotlib_viz file
         # to inspect the supported keyword arguments
         self.set_axis_styling(ax=ax, bordercolor='black', fontcolor='black')
 
@@ -122,11 +124,9 @@ class LineChart(MatplotlibViz):
         ax.set_ylabel('Events')
 
 
-
 # Create a subclass of base_components/MatplotlibViz
 # called `BarChart`
 class BarChart(MatplotlibViz):
-
     # Create a `predictor` class attribute
     # assign the attribute to the output
     # of the `load_model` utils function
@@ -169,7 +169,8 @@ class BarChart(MatplotlibViz):
         ax.barh([''], [pred], color=self.colors)
         ax.set_xlim(0, 1)
         self.set_title_styling(ax=ax, title="Predicted Recruitment Risk")
-        ax.text(pred + 0.02, 0, f'{pred:.3f} %', ha='left', va='center', fontsize=15, color='black', fontweight='bold')
+        ax.text(pred + 0.02, 0, f'{pred:.3f} %', ha='left', va='center',
+                fontsize=15, color='black', fontweight='bold')
 
         # pass the axis variable
         # to the `.set_axis_styling`
@@ -180,7 +181,6 @@ class BarChart(MatplotlibViz):
 # Create a subclass of combined_components/CombinedComponent
 # called Visualizations
 class Visualization(CombinedComponent):
-
     # Set the `children`
     # class attribute to a list
     # containing an initialized
@@ -188,16 +188,18 @@ class Visualization(CombinedComponent):
     children = [LineChart(), BarChart()]
 
     # Leave this line unchanged
-    outer_div_type = Div(cls='grid')
+    outer_div_type = Div(cls='grid')  # noqa: F405
+
 
 # Create a subclass of base_components/DataTable
 # called `NotesTable`
+
+
 class NotesTable(DataTable):
 
     # Overwrite the `component_data` method
     # using the same parameters as the parent class
     def component_data(self, entity_id, model):
-
         # Using the model and entity_id arguments
         # pass the entity_id to the model's .notes
         # method. Return the output
@@ -205,7 +207,6 @@ class NotesTable(DataTable):
 
 
 class DashboardFilters(FormGroup):
-
     id = "top-filters"
     action = "/update_data"
     method = "POST"
@@ -216,16 +217,18 @@ class DashboardFilters(FormGroup):
             name='profile_type',
             hx_get='/update_dropdown',
             hx_target='#selector'
-            ),
+        ),
         ReportDropdown(
             id="selector",
             name="user-selection")
-        ]
+    ]
+
 
 # Create a subclass of CombinedComponents
 # called `Report`
-class Report(CombinedComponent):
 
+
+class Report(CombinedComponent):
     # Set the `children`
     # class attribute to a list
     # containing initialized instances
@@ -233,8 +236,9 @@ class Report(CombinedComponent):
     # data visualizations, and notes table
     children = [Header(), DashboardFilters(), Visualization(), NotesTable()]
 
-# Initialize a fasthtml app 
-app = FastHTML()
+
+# Initialize a fasthtml app
+app = FastHTML()  # noqa: F405
 
 # Initialize the `Report` class
 report = Report()
@@ -244,39 +248,42 @@ report = Report()
 # Set the route's path to the root
 @app.route("/")
 def get():
-
     # Call the initialized report
     # pass the integer 1 and an instance
     # of the Employee class as arguments
     # Return the result
     return report(1, Employee())
 
+
 # Create a route for a get request
 # Set the route's path to receive a request
 # for an employee ID so `/employee/2`
 # will return the page for the employee with
-# an ID of `2`. 
-# parameterize the employee ID 
+# an ID of `2`.
+# parameterize the employee ID
 # to a string datatype
-@app.route("/employee/{id}")
-def get(id:int):
 
+
+@app.route("/employee/{id}")
+def get_employee(id: int):
     # Call the initialized report
     # pass the ID and an instance
     # of the Employee SQL class as arguments
     # Return the result
     return report(id, Employee())
 
+
 # Create a route for a get request
 # Set the route's path to receive a request
 # for a team ID so `/team/2`
 # will return the page for the team with
-# an ID of `2`. 
-# parameterize the team ID 
+# an ID of `2`.
+# parameterize the team ID
 # to a string datatype
-@app.route("/team/{id}")
-def get(id:int):
 
+
+@app.route("/team/{id}")
+def get_team(id: int):
     # Call the initialized report
     # pass the id and an instance
     # of the Team SQL class as arguments
@@ -308,5 +315,4 @@ async def update_data(r):
         return RedirectResponse(f"/team/{id}", status_code=303)
 
 
-
-serve()
+serve()  # noqa: F405

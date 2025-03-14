@@ -2,7 +2,7 @@
 from .query_base import QueryBase
 
 # Import dependencies for sql execution
-from .sql_execution import *
+from .sql_execution import QueryMixin
 
 
 # Create a subclass of QueryBase

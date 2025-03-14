@@ -16,11 +16,14 @@ matplotlib.rcParams['savefig.format'] = 'png'
 
 def matplotlib2fasthtml(func):
     '''
-    Copy of https://github.com/koaning/fh-matplotlib, which is currently hardcoding the 
+    Copy of https://github.com/koaning/fh-matplotlib,
+    which is currently hardcoding the
     image format as jpg. png or svg is needed here.
     '''
+
     def wrapper(*args, **kwargs):
-        # Reset the figure to prevent accumulation. Maybe we need a setting for this?
+        # Reset the figure to prevent accumulation.
+        # Maybe we need a setting for this?
         fig = plt.figure()
 
         # Run function as normal
@@ -36,22 +39,24 @@ def matplotlib2fasthtml(func):
         plt.close(fig)
         plt.close('all')
         return Img(src=f'data:image/jpg;base64, {my_base64_jpgData}')
+
     return wrapper
 
 
 class MatplotlibViz(BaseComponent):
-
     colors = ['green', 'red']
+
     @matplotlib2fasthtml
     def build_component(self, entity_id, model):
         return self.visualization(entity_id, model)
-    
-    
+
     def visualization(self, entity_id, model):
         pass
 
-    def set_title_styling(self, ax, title, fontsize=15, fontweight='bold', color="black"):
-        ax.set_title(title, fontsize=fontsize, fontweight=fontweight, color=color)
+    def set_title_styling(self, ax, title, fontsize=15, fontweight='bold',
+                          color="black"):
+        ax.set_title(title, fontsize=fontsize, fontweight=fontweight,
+                     color=color)
 
     def set_axis_styling(self, ax, bordercolor='white', fontcolor='white'):
 
@@ -65,4 +70,3 @@ class MatplotlibViz(BaseComponent):
         for line in ax.get_lines():
             line.set_linewidth(4)
             line.set_linestyle('solid')
-

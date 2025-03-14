@@ -37,7 +37,7 @@ def db_conn(db_path):
 
 @pytest.fixture
 def table_names(db_conn):
-    name_tuples = db_conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+    name_tuples = db_conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()  # noqa: 501
     return [x[0] for x in name_tuples]
 
 
@@ -64,8 +64,9 @@ def test_team_table_exists(table_names):
 # `test_employee_events_table_exists`
 # This function should receive the `table_names`
 # fixture as an argument
+
+
 def test_employee_events_table_exists(table_names):
     # Assert that the string 'employee_events'
     # is in the table_names list
     assert 'employee_events' in table_names
-

@@ -10,6 +10,8 @@ db_path = str(db_path)
 
 # OPTION 1: MIXIN
 # Define a class called `QueryMixin`
+
+
 class QueryMixin:
 
     # Define a method named `pandas_query`

@@ -2,7 +2,7 @@
 from .query_base import QueryBase
 
 # Import dependencies needed for sql execution
-from .sql_execution import *
+from .sql_execution import QueryMixin
 
 
 # Define a subclass of QueryBase
@@ -20,13 +20,14 @@ class Employee(QueryBase):
 
         # Query 3
         # Write an SQL query
-        # that selects two columns 
+        # that selects two columns
         # 1. The employee's full name
         # 2. The employee's id
         # This query should return the data
         # for all employees in the database
         sql_query = f'''
-                SELECT "first_name" || ' ' || "last_name" AS "user-selection", "employee_id"
+                SELECT "first_name" || ' ' || "last_name"
+                AS "user-selection", "employee_id"
                 FROM {self.name}
                 '''
 
@@ -45,7 +46,8 @@ class Employee(QueryBase):
         # to only return the full name of the employee
         # with an id equal to the id argument
         sql_query = f'''
-                SELECT "first_name" || ' ' || "last_name" AS "user-selection", "employee_id"
+                SELECT "first_name" || ' ' || "last_name"
+                AS "user-selection", "employee_id"
                 FROM {self.name}
                 WHERE {self.name}.{self.name}_id = {id}
                 '''
