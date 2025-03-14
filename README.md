@@ -1,4 +1,3 @@
-
 # Employee monitoring dashboard 
 
 Code to generate a dashboard that displays employee and team performance 
