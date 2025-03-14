@@ -1,7 +1,13 @@
 
-# Software Engineering for Data Scientists 
+# Employee monitoring dashboard 
 
-This repository contains starter code for the **Software Engineering for Data Scientists** final project. Please reference your course materials for documentation on this repository's structure and important files. Happy coding!
+Code to generate a dashboard that displays employee and team performance 
+as well as the predicted recruitment risk.
+
+### Disclaimer
+
+This repository contains starter code from the **Software Engineering for Data Scientists** final project (Udacity) and
+was used for the Dashboard project of the **Data Science Nanodegree**. 
 
 ### Repository Structure
 ```
